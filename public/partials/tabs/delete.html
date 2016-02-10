@@ -1,0 +1,12 @@
+<div ng-show="isSet(4)">
+	<div ng-show="isSet(4)  && !user.authorized">
+		You don't have the right to	delete this exercise!
+	</div>
+	<form ng-show="user.authorized" name="deleteForm">
+		<!-- <p class='form-element'>
+			<input type="submit" class="btn btn-primary" value="Delete it!" />
+		</p> -->
+		<button ng-click="deleteExercise();">Delete it!</button>	
+		<span ng-show="showMessage">{{message}}</span>
+	</form>
+</div>

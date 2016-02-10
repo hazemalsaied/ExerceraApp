@@ -1,0 +1,36 @@
+<h1 class="page-title">Add a new Exercise:</h1>
+
+<form novalidate ng-controller="addExCtrl">
+	<p>
+		<input type="text" placeHolder="Exercise Title:" ng-model="exercise.title" />
+	</p>
+	<p>
+		Category: 
+		<select ng-model="exercise.currentCat" 
+		        ng-options="cat as cat.name for cat in categories">           
+		</select>
+	</p>
+	<p>
+
+		<textarea rows="10" cols="70" 
+				  placeHolder="Write the content of you exercise, Just the question."
+				  ng-model="exercise.content">
+		</textarea>
+	</p>
+	<p>
+		<tags-input ng-model="exercise.tags" display-property="name" 
+				placeholder="Add a tag"
+				on-tag-added="tagAdded($tag)">
+      		<auto-complete source="loadTags($query)"
+      						min-length="1"
+	                     	load-on-focus="false"
+	                     	load-on-empty="false"
+	                     	max-results-to-show="5">
+         	</auto-complete>
+    	</tags-input>		
+	</p>
+	<p>
+		<button ng-click="addExercise();">Add it!</button>
+		<span id="message" ng-show="showMessage">{{message}}</span>
+	</p>
+</form>

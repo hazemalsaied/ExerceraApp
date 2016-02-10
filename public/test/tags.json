@@ -1,0 +1,8 @@
+[
+{ "id": 1, "name": "philosophy" },
+    { "id": 2, "name": "definition" },
+    { "id": 3, "name": "maths" },
+    { "id": 4, "name": "music" },
+    { "id": 5, "name": "phisic" }
+
+]

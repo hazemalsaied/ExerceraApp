@@ -1,0 +1,34 @@
+<div ng-show="isSet(3)">
+
+	<div ng-show="isSet(3)  && !user.authorized">You don't have the
+		right to report this exercise!</div>
+	<form ng-show="user.authorized" name="reportForm">
+		<!-- <div class="alert alert-success" ng-show="showAlert">
+			<strong>Done!</strong>
+		</div> -->
+
+
+		<!-- <p class='form-element'>
+			<select ng-model="report.raison" class="form-control"
+				ng-options="raisons for raisons in ['Wrong Exercise','Not Valid Category','Not valid Keywords', 'others ..?']"
+				title="raison">
+				<option value>What is Wrong?</option>
+			</select>
+		</p> -->
+		<p class='form-element'>
+			<textarea ng-model="report.newContent" class="form-control"
+				placeholder="You reason for reporting this exercise... "
+				title="Report content" rows="10" cols="70">
+			</textarea>
+		</p>
+		<!-- <p class='form-element'>
+			<input ng-model="report.author" type="email" class="form-control"
+				placeholder="name@example.org" title="Email" />
+		</p>
+		<p class='form-element'>
+			<input type="submit" class="btn btn-primary" value="I'm Sure!" />
+		</p> -->
+		<button ng-click="addReport();">Add it!</button>
+		<span ng-show="report.showMessage">{{report.message}}</span>
+	</form>
+</div>

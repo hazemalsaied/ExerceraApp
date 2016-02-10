@@ -1,0 +1,38 @@
+<div class="exercise-page exercise">
+
+	<div class='no-ex' ng-show='exercise.report_qty>3'>
+		<h1 class='page-title'>Sorry!</h1>
+		It looks that the exercse you are looking for needs a review. try
+		after a couple of days.
+	</div>
+	<div class='ex' ng-show='exercise.report_qty<4'>
+	<!-- <div class='ex'> -->
+		<h1 class='page-title'>{{exercise.title}}</h1>
+		<h3 class='ex-category'>{{exercise.cat_name}}</h3>
+		<div class='content'>{{exercise.content}}</div>
+		<div class='ex-details'>
+			<span>Rating: {{exercise.rating}}</span>, 
+			<span>Difficulty:{{exercise.difficulty}}</span>
+			<span>Tags:</span> 
+            <span ng-repeat="tag in exercise.tags" >
+				<a href="#/tag/{{tag.name}}">{{tag.name}}</a>
+			</span>
+		</div>
+
+		<section>
+			<ul class="nav nav-tabs">
+				<li ng-class="{ active:isSet(1) }"><a href ng-click="setTab(1)">Solutions</a></li>
+				<li ng-class="{ active:isSet(2) }"><a href ng-click="setTab(2)">Reviews</a></li>
+				<li ng-class="{ active:isSet(3) }"><a href ng-click="setTab(3)">Reports</a></li>
+				<li ng-class="{ active:isSet(4) }"><a href ng-click="setTab(4)">Delete</a></li>
+			</ul>
+			<!-- solutions  -->
+			<exsolutions></exsolutions>
+			<!-- Reviews  -->
+			<exreviews></exreviews> 
+			<!-- Reports  -->
+			<exreport></exreport>
+			<exdelete></exdelete>
+		</section>
+	</div>
+</div>

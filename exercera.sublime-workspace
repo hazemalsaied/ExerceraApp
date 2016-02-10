@@ -1,0 +1,1180 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"cat",
+				"cat_name"
+			],
+			[
+				"exer",
+				"exercise"
+			],
+			[
+				"ex_i",
+				"ex_ids"
+			],
+			[
+				"ex_",
+				"ex_ids"
+			],
+			[
+				"prin",
+				"print_r〔function〕"
+			],
+			[
+				"solut",
+				"solutions"
+			],
+			[
+				"created",
+				"created_time"
+			],
+			[
+				"curr",
+				"currentUser"
+			],
+			[
+				"account",
+				"accountCtrl	(controllers.js)"
+			],
+			[
+				"U",
+				"UserApp	(account.html)"
+			],
+			[
+				"ser",
+				"service"
+			],
+			[
+				"exe",
+				"execution	(solution_get_by_id.php)"
+			],
+			[
+				"is_a",
+				"is_approved"
+			],
+			[
+				"conn",
+				"connect_error	(solution_get_by_id.php)"
+			],
+			[
+				"so",
+				"solutions"
+			],
+			[
+				"print",
+				"print_r〔function〕"
+			],
+			[
+				"user",
+				"user_id"
+			],
+			[
+				"us",
+				"user_id"
+			],
+			[
+				"con",
+				"content"
+			],
+			[
+				"repr",
+				"report"
+			],
+			[
+				"err",
+				"error"
+			],
+			[
+				"sql",
+				"sql_cmd2"
+			],
+			[
+				"bind",
+				"bind_param"
+			],
+			[
+				"erro",
+				"error_arr"
+			],
+			[
+				"comm",
+				"commit"
+			],
+			[
+				"pri",
+				"print_r"
+			],
+			[
+				"array",
+				"array"
+			],
+			[
+				"ca",
+				"categories"
+			],
+			[
+				"selec",
+				"selected_fields"
+			],
+			[
+				"quo",
+				"quoteName"
+			],
+			[
+				"nam",
+				"nameArr"
+			],
+			[
+				"impl",
+				"implode〔function〕"
+			],
+			[
+				"ex",
+				"exercise_tag"
+			],
+			[
+				"php",
+				"phpinfo"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "public/ajax/exercise_get_by_category.php",
+			"settings":
+			{
+				"buffer_size": 1713,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/ajax/exercise_get_by_id.php",
+			"settings":
+			{
+				"buffer_size": 4946,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/ajax/exercise_get_by_tag.php",
+			"settings":
+			{
+				"buffer_size": 5688,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/test/exercise_get_by_tag.php",
+			"settings":
+			{
+				"buffer_size": 2426,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/ajax/exercise_get_all.php",
+			"settings":
+			{
+				"buffer_size": 1607,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/test/exercise_get_all.php",
+			"settings":
+			{
+				"buffer_size": 1643,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<?php\nrequire_once dirname(__DIR__).\"/includes/db_instance.php\";\nrequire_once dirname(__DIR__).\"/includes/utf8_utils.php\";\n\n$ex_id       = 2;\n\n$db = DbInstance::getInstance();\n\nif ($db->connect_errno) {\n	printf(\"Connect failed: %s\\n\", $db->connect_error);\n} else {		        \n	$exercise = array();\n\n	// Get exercise detail\n	if ($sql_cmd = $db->prepare(\"SELECT e.`id`, e.`title`, e.`content`, \n										e.`user_create`, e.`created_time`, \n										ed.`rating`, ed.`difficulty`, ed.`view_count`										\n								FROM `exercise` e \n								INNER JOIN\n									 `exercise_detail` ed ON e.`id` = ed.`id`\n								WHERE e.`id` = ?;\")) {\n		$sql_cmd->bind_param(\"i\", $ex_id);\n		if ($sql_cmd->execute()) {		\n			$sql_cmd->bind_result($id, $title, $content, $user_name, $created_time, \n									$rating, $difficulty, $view_count);\n			$exercises = array();	\n\n		    while ($sql_cmd->fetch()) {	\n				$exercise[\"id\"]      = $id;\n				$exercise[\"title\"] = $title;\n				$exercise[\"content\"] = $content;\n				$exercise[\"user_name\"] = $user_name;\n				$exercise[\"created_time\"] = $created_time;\n				$exercise[\"rating\"] = $rating;\n				$exercise[\"difficulty\"] = $difficulty;\n				$exercise[\"view_count\"] = $view_count;\n		    }\n		} else {\n			printf(\"Command execution failed: %s\", $sql_cmd->error);\n		}\n\n		$sql_cmd->close();\n	} else {\n		echo \"Can not prepare the command [get exercise detail]\";\n	}\n\n	// Get solutions\n	if ($sql_cmd = $db->prepare(\"SELECT `id`, `content`, `is_approved`, `user_create`, `created_time`\n								FROM `solution`\n								WHERE `ex_id` = ?;\")) {\n		$sql_cmd->bind_param(\"i\", $ex_id);\n		if ($sql_cmd->execute()) {		\n			$sql_cmd->bind_result($id, $content, $is_approved, $user_name, $created_time);\n			$solutions = array();\n\n		    while ($sql_cmd->fetch()) {	\n				$solution                 = array();\n				$solution[\"id\"]           = $id;\n				$solution[\"content\"]      = $content;\n				$solution[\"is_approved\"]  = $is_approved;\n				$solution[\"user_name\"]    = $user_name;\n				$solution[\"created_time\"] = $created_time;\n				$solutions[]              = $solution;\n		    }\n\n			$exercise[\"solutions\"] = $solutions;\n		} else {\n			printf(\"Command execution failed: %s\", $sql_cmd->error);\n		}\n\n		$sql_cmd->close();\n	} else {\n		echo \"Can not prepare the command [get solution]\";\n	}\n\n	// Get comments\n	if ($sql_cmd = $db->prepare(\"SELECT `id`, `content`, `user_create`, `created_time`\n								FROM `comment`\n								WHERE `ex_id` = ?;\")) {\n		$sql_cmd->bind_param(\"i\", $ex_id);\n		if ($sql_cmd->execute()) {		\n			$sql_cmd->bind_result($id, $content, $user_name, $created_time);\n			$comments = array();\n\n		    while ($sql_cmd->fetch()) {	\n				$comment                 = array();\n				$comment[\"id\"]           = $id;\n				$comment[\"content\"]      = $content;\n				$comment[\"is_approved\"]  = $is_approved;\n				$comment[\"user_name\"]    = $user_name;\n				$comment[\"created_time\"] = $created_time;\n				$comments[]              = $comment;\n		    }\n\n			$exercise[\"comments\"] = $comments;\n		} else {\n			printf(\"Command execution failed: %s\", $sql_cmd->error);\n		}\n\n		$sql_cmd->close();\n	} else {\n		echo \"Can not prepare the command [get comment]\";\n	}\n\n	// Get reports\n	if ($sql_cmd = $db->prepare(\"SELECT `id`, `content`, `user_create`, `created_time`\n								FROM `report`\n								WHERE `ex_id` = ?;\")) {\n		$sql_cmd->bind_param(\"i\", $ex_id);\n		if ($sql_cmd->execute()) {		\n			$sql_cmd->bind_result($id, $content, $user_name, $created_time);\n			$reports = array();\n\n		    while ($sql_cmd->fetch()) {	\n				$report                 = array();\n				$report[\"id\"]           = $id;\n				$report[\"content\"]      = $content;\n				$report[\"is_approved\"]  = $is_approved;\n				$report[\"user_name\"]    = $user_name;\n				$report[\"created_time\"] = $created_time;\n				$reports[]              = $report;\n		    }\n\n			$exercise[\"reports\"] = $reports;\n		} else {\n			printf(\"Command execution failed: %s\", $sql_cmd->error);\n		}\n\n		$sql_cmd->close();\n	} else {\n		echo \"Can not prepare the command [get report]\";\n	}\n\n	// Get tags\n	if ($sql_cmd = $db->prepare(\"SELECT t.`id`, t.`name`\n								FROM `tag` t\n								INNER JOIN `exercise_tag` et ON et.`tag_id` = t.`id`\n								WHERE et.`ex_id` = ?;\")) {\n		$sql_cmd->bind_param(\"i\", $ex_id);\n		if ($sql_cmd->execute()) {		\n			$sql_cmd->bind_result($id, $name);\n			$tags = array();\n\n		    while ($sql_cmd->fetch()) {	\n				$tag            = array();\n				$tag[\"id\"]      = $id;\n				$tag[\"content\"] = $name;\n				$tags[]         = $tag;\n		    }\n\n			$exercise[\"tags\"] = $tags;\n		} else {\n			printf(\"Command execution failed: %s\", $sql_cmd->error);\n		}\n\n		$sql_cmd->close();\n	} else {\n		echo \"Can not prepare the command [get solution]\";\n	}\n\n	$json = json_encode(utf8ize($exercise), JSON_PRETTY_PRINT);\n	printf(\"<pre>%s</pre>\", $json);\n	$db->close();\n}\n?>",
+			"file": "public/test/exercise_get_by_id.php",
+			"file_size": 4764,
+			"file_write_time": 130967454034399651,
+			"settings":
+			{
+				"buffer_size": 4741,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 285.0,
+		"last_filter": "pack",
+		"selected_items":
+		[
+			[
+				"pack",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 593.0
+	},
+	"console":
+	{
+		"height": 132.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/ducva/Project/exercera",
+		"/home/ducva/Project/exercera/lib",
+		"/home/ducva/Project/exercera/public",
+		"/home/ducva/Project/exercera/public/ajax",
+		"/home/ducva/Project/exercera/public/includes",
+		"/home/ducva/Project/exercera/public/js",
+		"/home/ducva/Project/exercera/public/model",
+		"/home/ducva/Project/exercera/public/partials",
+		"/home/ducva/Project/exercera/public/partials/constant",
+		"/home/ducva/Project/exercera/public/partials/tabs",
+		"/home/ducva/Project/exercera/public/test",
+		"/home/ducva/Project/exercera/report"
+	],
+	"file_history":
+	[
+		"/home/ducva/Project/exercera/public/test/exercise_get_by_catid.php",
+		"/home/ducva/Project/exercera/report/exercera_data_initiation-v2.sql",
+		"/home/ducva/Project/exercera/public/test/exercise_get_by_catid.html",
+		"/home/ducva/Project/exercera/public/ajax/solution_get_by_userid.php",
+		"/home/ducva/Project/exercera/public/partials/addExercise.html",
+		"/home/ducva/Project/exercera/public/partials/account.html",
+		"/home/ducva/Project/exercera/public/js/directives.js",
+		"/home/ducva/Project/exercera/public/partials/exercises.html",
+		"/home/ducva/Project/exercera/public/ajax/comment_get_by_userid.php",
+		"/home/ducva/Project/exercera/public/ajax/report_get_by_exid.php",
+		"/home/ducva/Project/exercera/public/ajax/report_get_by_id.php",
+		"/home/ducva/Project/exercera/public/ajax/report_get_by_userid.php",
+		"/home/ducva/Project/exercera/public/ajax/solution_get_by_exid.php",
+		"/home/ducva/Project/exercera/public/ajax/solution_get_by_id.php",
+		"/home/ducva/Project/exercera/public/ajax/category_get_all.php",
+		"/home/ducva/Project/exercera/public/ajax/category_get_by_id.php",
+		"/home/ducva/Project/exercera/public/ajax/comment_get_by_exid.php",
+		"/home/ducva/Project/exercera/public/ajax/comment_get_by_id.php",
+		"/home/ducva/Project/exercera/public/partials/tabs/solutions.html",
+		"/home/ducva/Project/exercera/public/js/app.js",
+		"/home/ducva/Project/exercera/public/partials/exercise.html",
+		"/home/ducva/Project/exercera/public/js/services.js",
+		"/home/ducva/Project/exercera/public/partials/constant/sidebar.html",
+		"/home/ducva/Project/exercera/public/js/controllers.js",
+		"/home/ducva/Project/exercera/public/index.html",
+		"/media/ducva/data/06photo/20151206 - MuseeDeBeauxArtsDeNancy - Salle de lumiere",
+		"/home/ducva/.config/sublime-text-3/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/ducva/Project/test/angulartest/my-simple-demo/createUserCtrl.js",
+		"/home/ducva/Project/test/angulartest/my-simple-demo/create_user.php",
+		"/home/ducva/Project/exercera/public/ajax/solution_create.php",
+		"/home/ducva/Project/exercera/public/ajax/solution_delete.php",
+		"/home/ducva/Project/exercera/public/ajax/comment_delete.php",
+		"/home/ducva/Project/exercera/public/ajax/comment_update.php",
+		"/home/ducva/Project/exercera/public/ajax/exercise_create.php",
+		"/home/ducva/Project/exercera/public/ajax/exercise_update.php",
+		"/home/ducva/Project/exercera/public/test/solution_update.php",
+		"/home/ducva/Project/exercera/public/ajax/solution_update.php",
+		"/home/ducva/Project/exercera/public/test/solution_get_by_id.php",
+		"/home/ducva/Project/exercera/public/includes/utf8_utils.php",
+		"/home/ducva/Project/exercera/public/ajax/category_create.php",
+		"/home/ducva/Project/exercera/public/ajax/category_delete.php",
+		"/home/ducva/Project/exercera/public/ajax/category_update.php",
+		"/home/ducva/Project/exercera/public/ajax/comment_create.php",
+		"/home/ducva/Project/exercera/public/ajax/exercise_delete.php",
+		"/home/ducva/Project/exercera/public/ajax/report_create.php",
+		"/home/ducva/Project/exercera/public/ajax/report_delete.php",
+		"/home/ducva/Project/exercera/public/ajax/report_update.php",
+		"/home/ducva/Project/test/sed1/category_create.php",
+		"/home/ducva/Project/exercera/public/test/category_create.php",
+		"/home/ducva/Project/exercera/public/test/category_delete.php",
+		"/home/ducva/Project/exercera/public/test/category_get_all.php",
+		"/home/ducva/Project/exercera/public/test/solution_get_by_userid.php",
+		"/home/ducva/Project/exercera/error.log",
+		"/home/ducva/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
+		"/home/ducva/.config/sublime-text-3/Packages/User/Xdebug.sublime-settings",
+		"/home/ducva/Project/exercera/public/test/solution_get_by_exid.php",
+		"/home/ducva/Project/exercera/.htaccess",
+		"/home/ducva/Project/exercera/report/exercera_data_insertion-v2.sql",
+		"/home/ducva/Project/exercera/public/ajax/review_create.php",
+		"/home/ducva/Project/exercera/public/ajax/review_get_by_userid.php",
+		"/home/ducva/Project/exercera/public/ajax/review_update.php",
+		"/home/ducva/Project/exercera/public/ajax/review_get_by_id.php",
+		"/home/ducva/Project/exercera/public/ajax/review_get_by_exid.php",
+		"/home/ducva/Project/exercera/public/ajax/review_delete.php",
+		"/home/ducva/Project/exercera/public/test/report_update.php",
+		"/home/ducva/Project/exercera/public/test/report_get_by_id.php",
+		"/home/ducva/Project/exercera/public/test/report_get_by_userid.php",
+		"/home/ducva/Project/exercera/public/test/report_get_by_exid.php",
+		"/home/ducva/Project/exercera/public/test/report_delete.php",
+		"/home/ducva/Project/exercera/public/test/report_create.php",
+		"/home/ducva/Project/exercera/public/test/exercise_create.php",
+		"/home/ducva/Dropbox/php-mysql-virtual-host-config.txt",
+		"/home/ducva/Project/hypertagger/data/p16/d0686/drs-analysis.xml",
+		"/home/ducva/Project/hypertagger/data/p24/d0686/drs-analysis.xml",
+		"/media/ducva/data/02tal/04-nlp-project/data/gmb-2.2.0/data/p04/d0005/en.tok.off",
+		"/home/ducva/Project/exercera/public/includes/db_wrapper.php",
+		"/home/ducva/Project/exercera/public/test/category_update.php",
+		"/home/ducva/Project/exercera/test-file.php",
+		"/home/ducva/Project/exercera/public/includes/db_instance.php",
+		"/home/ducva/Dropbox/elementaryos-init-cmd.txt",
+		"/home/ducva/Project/exercera/public/test/db_helper.php",
+		"/home/ducva/Dropbox/research-team-presentation.txt",
+		"/home/ducva/Dropbox/application-config.txt",
+		"/home/ducva/Project/exercera/public/model/category.php",
+		"/home/ducva/Project/todo",
+		"/home/ducva/Project/exercera/initiation/exerceraDTDCommand.sql",
+		"/home/ducva/Project/test/angulartest/angularjs/product-manager/api/v1/dbHelper.php",
+		"/home/ducva/Project/references/inventory/offline-resource/InventoryDropCommand.sql",
+		"/home/ducva/Project/references/inventory/offline-resource/InventoryDeleteCommand.sql",
+		"/home/ducva/Project/references/inventory/offline-resource/InventoryBaseCommand.sql",
+		"/home/ducva/Project/references/inventory/offline-resource/test_connection.php",
+		"/home/ducva/Project/references/inventory/offline-resource/new  1.sql",
+		"/home/ducva/Project/references/inventory/offline-resource/log.txt",
+		"/home/ducva/Project/references/inventory/offline-resource/database.php",
+		"/home/ducva/Project/references/inventory/offline-resource/InventoryManager.mwb",
+		"/home/ducva/.local/share/applications/mendeleydesktop.desktop",
+		"/home/ducva/Project/exercera/system/core/Common.php",
+		"/home/ducva/.config/sublime-text-3/Packages/SublimeLinter/Default (Linux).sublime-keymap",
+		"/home/ducva/.config/sublime-text-3/Packages/User/Xdebug.breakpoints",
+		"/home/ducva/.config/sublime-text-3/Packages/User/Xdebug.expressions",
+		"/home/ducva/Project/exercera/exercera.sublime-project",
+		"/home/ducva/Project/test/index.php",
+		"/home/ducva/.config/sublime-text-3/Packages/BracketHighlighter/bh_core.sublime-settings",
+		"/home/ducva/.config/sublime-text-3/Packages/User/Base File.sublime-settings",
+		"/home/ducva/.config/sublime-text-3/Packages/Alignment/Base File.sublime-settings"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"solution",
+			"comment",
+			"solution",
+			"created_date",
+			"user_create",
+			"solution",
+			"account",
+			"ex_id",
+			"sol",
+			"review",
+			"`",
+			"review",
+			"report",
+			"categories",
+			"Taylor",
+			"TEXT",
+			"`inventory`",
+			"f4",
+			"f1"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"tag",
+			"report",
+			"comment",
+			"created_time",
+			"exercise",
+			"id",
+			"solution",
+			"comment",
+			"'",
+			"solution",
+			"review",
+			"reports",
+			"`exercera`"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "public/ajax/exercise_get_by_category.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1713,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								694,
+								694
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "public/ajax/exercise_get_by_id.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4946,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								570,
+								570
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 252.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "public/ajax/exercise_get_by_tag.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5688,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								124,
+								124
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "public/test/exercise_get_by_tag.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2426,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2426,
+								2426
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1197.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "public/ajax/exercise_get_all.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1607,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								517,
+								517
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 504.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "public/test/exercise_get_all.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1643,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1641,
+								1641
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content"
+							],
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 630.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "public/test/exercise_get_by_id.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4741,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4474,
+								4474
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2926.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 32.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.xdebug":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "exercera.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"xdebug":
+		{
+			"hide_conflict": false,
+			"restore_index":
+			{
+				"33":
+				{
+					"group": 0,
+					"index": 0
+				},
+				"35":
+				{
+					"group": 0,
+					"index": 1
+				}
+			},
+			"restore_layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						1,
+						1
+					]
+				],
+				"cols":
+				[
+					0.0,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					1.0
+				]
+			}
+		}
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 236.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

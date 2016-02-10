@@ -1,0 +1,66 @@
+<div class="account">
+	<h1>Hi {{ user.first_name }}! .. Nice to see you again</h1>
+
+	<form class="form" ng-controller="accountCtrl" >
+		<h2 class="form-heading">Your Account Infomation</h2>
+		<div class="form-fields">			
+            
+            <p><label for="first_name">First Name</label>
+			    <input id="first_name" name="first_name" ng-model="user.first_name" placeholder="{{user.first_name}}" type="text" class="form-control"></p> 
+			
+            <p><label for="last_name">Last Name</label>
+                <input name="last_name" id="last_name" ng-model="user.last_name" placeholder="{{user.last_name}}" type="text" class="form-control"></p>
+			
+            <p><label for="email">Email</label>
+                <input id="email" name="login" ng-model="user.email" placeholder="{{user.email}}" type="email"	class="form-control"> </p>
+			
+            <p><label for="University">University</label>
+                <input id="University" name="last_name" ng-model="user.properties.University.value"	placeholder="{{user.properties.University.value}}" 
+                       type="text" class="form-control"></p>
+            
+            <p><label for="Address">Address</label>
+                <input name="Address" id="Address" ng-model="user.properties.Address.value" 
+                       placeholder="{{user.properties.Address.value}}" type="text" class="form-control"></p>
+            
+            <p><label for="code_postal">Postal Code</label>
+                <input name="code_postal" id="code_postal" ng-model="user.properties.postal_code.value" 
+                       placeholder="{{user.properties.postal_code.value}}" type="text" class="form-control"></p>
+            
+            <p><label for="City">City</label>
+                <input name="City" id="City" ng-model="user.properties.city.value" 
+                       placeholder="{{user.properties.city.value}}" type="text" class="form-control"></p>
+            
+            <p><label for="Interests">Interests</label>
+                <input name="Interests" id="Interests" ng-model="user.properties.Interests.value" 
+                       placeholder="{{user.properties.Interests.value}}" type="text" class="form-control"></p>
+		</div>
+        
+		<button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="saveUser()"
+			ng-disabled="loading">
+			<span ng-show="!loading">Update!</span> <img ng-show="loading"
+				src="img/ajax-loader-blue.gif">
+		</button>
+        
+	</form>
+    
+    <h2 class="form-heading">Your Exercises</h2>
+    <ul class="exercises" ng-controller="exsCtrl">
+				<li	ng-repeat="exercise in exercises | filter:userFilter | orderBy:orderProp"
+					class="exsli">
+					<div class='ex'>
+						<h1 class='ex-title'>
+							<a href="#/exercises/{{exercise.id}}" class="title">{{exercise.title}}</a>
+						</h1>
+						<h3 class='ex-category'>Category: {{exercise.cat_name}}</h3>
+						<div class='content'>{{exercise.content}}</div>
+						<div class='ex-details'>
+                            <span>Rating: {{exercise.rating}}</span>, 
+                            <span>Difficulty:{{exercise.difficulty}}</span>
+                            <span ng-repeat="tag in exercise.tags">
+                                <a href="#/tag/{{tag.name}}">{{tag.name}}</a>
+                            </span>
+                        </div>
+					</div>
+				</li>
+			</ul>
+</div>

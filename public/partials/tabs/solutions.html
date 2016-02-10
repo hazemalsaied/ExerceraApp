@@ -1,0 +1,35 @@
+<div>
+	<div ng-show="isSet(1)">
+		<ul class="solutions">
+			<li ng-repeat="solution in exercise.solutions" class="solution">
+				<div class='solution-content'>{{solution.content}}</div>
+			</li>
+		</ul>
+
+		<form   ng-show="user.authorized" name="solutionForm">
+
+			<!--  Live Preview -->
+			<!-- <div class='solution-content'>{{solution.newContent}}</div> -->
+
+
+			<!--  Review Form -->
+			<h4>Submit a Solution!</h4>
+			<p class='form-element'>
+				<textarea ng-model="solution.newContent" class="form-control"
+					placeholder="Write your solution here .." title="Review" rows="10"
+					cols="70"></textarea>
+			</p>
+			<!-- <p class='form-element'>
+				<input ng-model="solution.author" type="email" class="form-control"
+					placeholder="name@example.org" title="Email" />
+			</p>
+			<p class='form-element'>
+				<input type="submit" class="btn btn-primary"
+					value="Submit a solution!" />
+			</p> -->
+			<button ng-click="addSolution();">Add it!</button>
+			<span ng-show="solution.showMessage">{{solution.message}}</span>
+		</form>
+
+	</div>
+</div>

@@ -1,0 +1,447 @@
+@CHARSET "UTF-8";
+
+@CHARSET "UTF-8";
+
+body {
+	background: #fff url("../img/bg-site.png") repeat scroll left top;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	border: 1px solid #e9eaed;
+	box-shadow: 3px 5px 5px 3px #888888;
+	margin: 2em auto;
+	max-width: 960px;
+	padding: 20px 1em;
+    line-height: 2em;
+}
+.wrapper {
+	overflow: hidden;
+}
+ul {
+    padding-left: 5px;
+}
+.tree ul {
+    padding-left: 1.5em;
+}
+
+a {
+	color: #003b52;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+/* Footer CSS */
+.footer-container {
+	border-top: medium solid #e9eaed;
+	margin: 1em 5px;
+}
+
+.footer-container p {
+	clear: none;
+	float: left;
+	font-size: 14px;
+	margin: 11px 0;
+	padding: 0;
+	width: 50%;
+}
+
+.footer-container .menu-primary-container {
+	font-size: 12px;
+}
+
+.footer-container .menu-primary-container a {
+	color: #C01D22;
+}
+
+/* Header CSS */
+.header-title {
+	float: left;
+	width: 25%;
+	padding: 0 1em;
+	font-size: 130%;
+	margin-bottom: 65px;
+}
+
+.search-form-top {
+	float: left;
+	margin-top: 15px;
+	width: 45%;
+}
+
+.search-wrap input.s.field {
+	height: 28px;
+	line-height: 28px;
+	padding: 0 9px;
+	width: 80%;
+}
+
+.search-wrap button.search-icon {
+	height: 2.2em;
+	width: 10%;
+	line-height: 2em;
+}
+/* Login CSS */
+.lgin-in-corner {
+	overflow: hidden;
+}
+
+.lgin-in-corner li {
+	float: left;
+	margin-left: 0;
+	margin-right: 0.1em;
+	width: 48%;
+}
+
+.lgin-in-corner li a {
+	display: block;
+	font-size: 10px;
+}
+
+li.forgot-password {
+	clear: both;
+	font-size: 8px;
+	width: 100%;
+}
+
+.exercises {
+    padding-left: 5px;
+}
+.col-md-2 {
+    border-bottom: medium solid #e9eaed;
+    padding-bottom: 1em;
+    padding-left: 1em;
+}
+.exsli {
+    list-style-type: none;
+}
+/* Navigation CSS */
+.header-container ul li, .footer-container ul li {
+	list-style-type: none;
+	float: left;
+	margin: 2px 10px;
+}
+
+.site-navigation ul li a {
+	font-size: 100%;
+	font-weight: bold;
+}
+
+.site-navigation {
+	width: 100%;
+	overflow: hidden;
+	border-bottom: medium solid #e9eaed;
+}
+
+ul.menunav-menu {
+	overflow: hidden;
+	margin: 3px;
+}
+
+.menunav-menu li.menu-item {
+	line-height: 2em;
+	height: 2em;
+	border-right: 2px solid #E9EAED;
+	padding-right: 0.5em;
+}
+/* Left Sidebar CSS */
+.sidebar-scoop {
+	float: left;
+	height: 100%;
+	padding: 10px;
+	width: 25%;
+	margin-top: 1.4em;
+}
+
+.sidebar-scoop li {
+    line-height: 2em;
+    list-style: outside none square;
+}
+
+.main-container {
+	border-left: medium solid #e9eaed;
+	float: right;
+	margin: 1em 0;
+	overflow: hidden;
+	padding: 1em;
+	width: 69%;
+}
+
+/* Headers and titles CSS */
+h1 {
+	color: #48649f;
+	font-size: 22px;
+	font-weight: 700;
+	margin: 5px 0;
+}
+.header-title a {
+    color: #C01D22;
+}
+.header-title>h1 {
+	color: #c01d22;
+	font-size: 45px;
+}
+.account h1 {
+    color: #c01d22;
+}
+.ex-title a {
+	color: #c01d22;
+}
+
+.main-container .page-title {
+	border-bottom: medium solid #e9eaed;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	color: #c01d22;
+}
+
+h2 {
+	color: #48649f;
+	font-size: 18px;
+	font-weight: 700;
+	margin: 5px 0;
+}
+
+.main-container h2 {
+	border-bottom: medium solid #e9eaed;
+	padding: 15px 3px;
+}
+
+h3 {
+    color: orange;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 3px 0;
+}
+/* Forms CSS */
+.register-page  label, .admin  label, .permissions label {
+	width: 25% !important;
+}
+
+.main-container label {
+	display: block;
+	float: left;
+	width: 15%;
+}
+
+input[type="submit"], input[type="button"], button, .button, a.button, a.button:visited,
+	.btn {
+	background: rgba(0, 0, 0, 0)
+		-moz-linear-gradient(center top, #0f3559, #061b2f) repeat scroll 0 0;
+	border: 0 none;
+	box-shadow: 0 1px 2px #555;
+	color: #fff;
+	cursor: pointer;
+	display: inline-block;
+	line-height: 1;
+	padding: 0.7em 1em;
+	text-align: center;
+	transition: background 0.15s ease 0s, color 0.15s ease 0s;
+}
+
+fieldset {
+	border: medium none;
+}
+
+textarea {
+	border: 1px solid gray;
+	color: gray;
+	padding: 5px;
+	line-height: 1;
+}
+
+input[type="text"],input[type="email"], input[type="password"] {
+	border: 1px solid gray;
+	height: 22px;
+	min-width: 200px !important;
+	padding-left: 3px;
+}
+
+/* Exercise Page CSS */
+.content.ng-binding {
+	border-bottom: 1px solid #0E3051;
+	line-height: 2em;
+	padding-bottom: 2em;
+}
+
+.ex-details {
+	font-size: 14px;
+	padding: 0.5em 0;
+	line-height: 1.5em;
+	border-bottom: 1px solid #0E3051;
+	margin-bottom: 0.5em;
+    overflow: hidden;
+}
+
+.ex-details span {
+	display: block;
+	float: left;
+	margin-left: 1em;
+}
+
+.ex-details .ng-binding.ng-scope {
+	color: orange;
+}
+
+.nav.nav-tabs {
+	border-bottom: 1px solid;
+	display: block;
+	line-height: 2em;
+	overflow: hidden;
+	padding-left: 5px;
+}
+
+.nav-tabs li {
+	display: block;
+	float: left;
+	list-style: outside none none;
+	margin-right: 1em;
+	position: relative;
+}
+.nav.navbar-nav.navbar-right > li a{
+	color:white;
+}
+.nav.navbar-nav.navbar-right > li {
+    float: right;
+    text-align: center;
+    width: 5em;
+}
+
+.nav-tabs > li.active > a, .btn-primary, .btn-primary:focus ,.nav.navbar-nav.navbar-right > li{
+    background: #0F3558;
+    border: 1px solid white;
+    box-shadow: 0 1px 2px #555;
+    color: white;
+    display: block;
+    line-height: 2em;
+    padding: 0 0.5em;
+}
+
+.exercise-page .solutions {
+	padding-left: 0;
+}
+
+.exercise-page .solution.ng-scope {
+	border-bottom: medium solid #e9eaed;
+	list-style-type: none;
+	padding: 1em 0;
+}
+
+.form {
+  max-width: 330px;
+  padding: 0 15px;
+}
+.form .form-heading {
+  margin-bottom: 20px;
+}
+.form .form-control {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.form .form-control:focus {
+  z-index: 2;
+}
+.form input[type="text"] {
+  margin-bottom: -1px;
+  border-radius: 0;
+}
+.form input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form input.single-control {
+  margin-bottom: 10px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 3px;
+}
+.form-fields input[type="text"]:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 3px;
+}
+
+.active {
+  font-weight: bold;
+}
+
+.form .alert {
+  margin-top: 10px;
+}
+
+.btn-facebook {
+  background: #4c66a4;
+  border-color: #145fd7;
+  color: white;
+}
+.btn-facebook:hover,
+.btn-facebook:focus,
+.btn-facebook:active {
+  background: #395597;
+  color: white;
+}
+.btn-google {
+  background: #d73d32;
+  border-color: #d73d32;
+  color: white;
+}
+.btn-google:hover,
+.btn-google:focus,
+.btn-google:active {
+  background: #CC1C0F;
+  color: white;
+}
+.btn-github {
+  background: #ddd;
+  border-color: #ddd;
+}
+.btn-github:hover,
+.btn-github:focus,
+.btn-github:active {
+  background: #CFCECE;
+}
+.btn-linkedin {
+  background: #287EB6;
+  border-color: #287EB6;
+  color: white;
+}
+.btn-linkedin:hover,
+.btn-linkedin:focus,
+.btn-linkedin:active {
+  background: #1671AC;
+  color: white;
+}
+
+.btn {
+    padding: 0.5em 1em;
+}
+.form-fields label {
+    line-height: 2.5em;
+    width: 7em;
+}
+.social-login.ng-scope {
+    clear: right;
+    margin: 1em;
+    overflow: hidden;
+    
+}
+
+.social-login p {
+    float: left;
+    margin-left: 4px;
+    text-align: center;
+}
+.forget-passsword.ng-scope {
+    padding-left: 1em;
+}
+.main-container p {
+    text-align:left!important;
+}
+.form .alert {
+    background: #e9eaed none repeat scroll 0 0;
+    border: 1px solid gray;
+    line-height: 2em;
+    margin-top: 10px;
+    padding: 5px;
+}

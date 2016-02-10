@@ -1,0 +1,40 @@
+<div class="container-fluid">
+	<div class="row">
+		
+		<h1 class='page-title'>The most inspiring on Exercera:</h1>
+		<div class="col-md-2">
+			<!--Sidebar content-->
+
+			Search: <input ng-model="query"> 
+			Sort by: <select ng-model="orderProp">
+				<option value="exid">Views</option>
+				<option value="name">Difficulty</option>
+				<option value="cat">Rating</option>
+			</select>
+
+		</div>
+		<div class="col-md-10">
+			<!--Body content-->
+
+			<ul class="exercises">
+				<li	ng-repeat="exercise in exercises | filter:query | orderBy:orderProp"
+					class="exsli">
+					<div class='ex'>
+						<h1 class='ex-title'>
+							<a href="#/exercises/{{exercise.id}}" class="title">{{exercise.title}}</a>
+						</h1>
+						<h3 class='ex-category'>Category: {{exercise.cat_name}}</h3>
+						<div class='content'>{{exercise.content}}</div>
+						<div class='ex-details'>
+                            <span>Rating: {{exercise.rating}}</span>, 
+                            <span>Difficulty:{{exercise.difficulty}}</span>
+                            <span ng-repeat="tag in exercise.tags">
+                                <a href="#/tag/{{tag.name}}">{{tag.name}}</a>
+                            </span>
+                        </div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

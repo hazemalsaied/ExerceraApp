@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Exercera</title>
+
+
+<!-- styles for The whole application -->
+<link href='css/style.css' rel='stylesheet' type='text/css' />
+<!-- ng-tags -->
+<link rel="stylesheet" href="css/ng-tags-input.css" />
+    
+<!-- Font Awesome -->
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">    
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<!--Defined Directive -->
+<exheader></exheader>
+
+<div class='wrapper'>
+	<!--Defined Directive -->
+    <exsidebar></exsidebar>
+    <!--The main view where the content would be rendered according to NGRouter configuraion -->
+	<div class='main-container' ng-view></div>
+</div>
+<!--Defined Directive -->
+<exfooter></exfooter>
+    
+<!-- The libs of AngularJS -->
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
+    
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script	src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<!-- The Defined Anjular code convocation  -->
+<script src="js/app.js"></script>
+<script src="js/controllers.js"></script>
+<script src="js/directives.js"></script>
+<script src="js/ng-tags-input.js"></script>
+
+<!-- for the UserApp cloud service -->    
+<script src="https://app.userapp.io/js/userapp.client.js"></script>
+<script src="https://app.userapp.io/js/angularjs.userapp.js"></script>
+</body>
+</html>

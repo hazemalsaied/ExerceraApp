@@ -1,0 +1,39 @@
+<div ng-show="isSet(2)">
+	<ul class=" reviews">
+		<li ng-repeat="review in exercise.comments" class="solution review">
+			<div class='review-diff'>{{review.diff}}</div>
+			<div class='solution-content review-content'>{{review.content}}</div>
+		</li>
+	</ul>
+	<form ng-show='user.authorized' name="reviewForm">
+
+		<!--  Live Preview -->
+		<!-- <div class='review-diff'>{{exercise.difficulty}}</div>
+		<div class='review-content'>{{review.content}}</div>
+		<div class=' review.author'>{{review.user_name}}</div> -->
+
+		<!--  Review Form -->
+		<h4>Submit a Review</h4>
+		<!-- <p class='form-element'>
+			<select ng-model="review.difficulty" class="form-control"
+				ng-options="diffs for diffs in [5,4,3,2,1]" title="diff">
+				<option value>Which Difficulty?</option>
+			</select>
+		</p> -->
+		<p class='form-element'>
+			<textarea ng-model="review.newContent" class="form-control"
+				placeholder="Write a short review of the exercise .. "
+				title="Review" rows="10" cols="70"></textarea>
+		</p>
+		<!-- <p class='form-element'>
+			<input ng-model="review.author" type="email" class="form-control"
+				placeholder="name@example.org" title="Email" />
+		</p> -->
+		<!-- <p class='form-element'>
+			<input type="submit" value="Submit Review" />
+		</p> -->
+		<button ng-click="addReview();">Add it!</button>
+		<span ng-show="review.showMessage">{{review.message}}</span>		
+	</form>
+
+</div>
